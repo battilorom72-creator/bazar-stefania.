@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bazar di Stefania - Detersivi e Intimo</title>
+    <!-- Google Fonts per una leggibilità perfetta -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #0d0d0d;
+            color: #ffffff;
+            padding: 15px;
+            font-size: 18px; /* Carattere di base più grande per tutti */
+            line-height: 1.5;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 10px;
+            border-bottom: 3px solid #ffcc00;
+            margin-bottom: 25px;
+            background: #1a1a1a;
+            border-radius: 15px;
+        }
+
+        .logo-container h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ffcc00;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .logo-container p {
+            font-size: 1.3rem;
+            color: #dddddd;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Barra di ricerca grande */
+        .search-box {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .search-box input {
+            width: 100%;
+            max-width: 600px;
+            padding: 18px 25px;
+            font-size: 1.2rem;
+            border: 3px solid #ffcc00;
+            border-radius: 50px;
+            background-color: #222;
+            color: #fff;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: #aaa;
+        }
+
+        /* Filtri grandi */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background-color: #262626;
+            color: white;
+            border: 2px solid #555;
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background-color: #ffcc00;
+            color: #000;
+            border-color: #ffcc00;
+        }
+
+        /* Griglia Prodotti */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .product-card {
+            background-color: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: contain;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .product-desc {
+            font-size: 1rem;
+            color: #bbb;
+            margin-bottom: 15px;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffcc00;
+            margin-bottom: 15px;
+        }
+
+        /* Pulsante grande per aggiungere al carrello */
+        .add-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .add-btn:hover {
+            background-color: #218838;
+        }
+
+        /* Sezione Carrello / Lista Spesa in basso */
+        .cart-section {
+            background-color: #1a1a1a;
+            border: 3px solid #ffcc00;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .cart-section h2 {
+            font-size: 1.8rem;
+            color: #ffcc00;
+            margin-bottom: 15px;
+        }
+
+        .cart-items {
+            list-style: none;
+            margin-bottom: 20px;
+            text-align: left;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cart-items li {
+            font-size: 1.1rem;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .whatsapp-btn {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #1ebe5d;
+        }
+
+        /* Pannello per aggiungere nuovi prodotti facilmente */
+        .admin-section {
+            background-color: #222;
+            border: 2px dashed #ffcc00;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .admin-section h3 {
+            color: #ffcc00;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .admin-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .admin-form input {
+            padding: 14px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            border: 1px solid #555;
+            background: #111;
+            color: white;
+        }
+
+        .admin-form button {
+            background: #ffcc00;
+            color: black;
+            font-weight: bold;
+            padding: 14px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Intestazione con Logo Centrale -->
+        <header>
+            <div class="logo-container">
+                <h1>BAZAR</h1>
+                <p>di Stefania Peretano</p>
+            </div>
+        </header>
+
+        <!-- Barra di Ricerca -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Cerca detersivo o intimo (es. Dash, Cotonella)..." onkeyup="filterProducts()">
+        </div>
+
+        <!-- Filtri Categorie -->
+        <div class="filters">
+            <button class="filter-btn active" onclick="setCategory('all')">Tutti i Prodotti</button>
+            <button class="filter-btn" onclick="setCategory('detersivi')">Detersivi & Casa</button>
+            <button class="filter-btn" onclick="setCategory('intimo')">Intimo</button>
+        </div>
+
+        <!-- Griglia Prodotti -->
+        <div class="products-grid" id="productsGrid">
+            <!-- I prodotti vengono caricati via JavaScript -->
+        </div>
+
+        <!-- Carrello / Lista Spesa -->
+        <div class="cart-section">
+            <h2>La tua Lista della Spesa</h2>
+            <ul id="cartList" class="cart-items">
+                <li style="color: #aaa; text-align: center;">Nessun prodotto aggiunto. Clicca su "Aggiungi" sui prodotti che desideri.</li>
+            </ul>
+            <div id="cartTotal" style="font-size: 1.4rem; font-weight: bold; margin-bottom: 20px;">Totale stimato: €0.00</div>
+            <button class="whatsapp-btn" onclick="sendWhatsApp()">Invia Ordine su WhatsApp</button>
+        </div>
+
+        <!-- Pannello per aggiungere nuovi prodotti in futuro -->
+        <div class="admin-section">
+            <h3>Aggiungi Nuovo Prodotto (Gestione Negozio)</h3>
+            <div class="admin-form">
+                <input type="text" id="newTitle" placeholder="Nome prodotto (es. Dixan Polvere)">
+                <input type="text" id="newCategory" placeholder="Categoria ('detersivi' o 'intimo')">
+                <input type="text" id="newPrice" placeholder="Prezzo (es. 4.50)">
+                <input type="text" id="newImage" placeholder="Link immagine web (URL)">
+                <button onclick="addNewProduct()">Aggiungi al Catalogo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Catalogo iniziale con immagini reali
+        let products = [
+            { id: 1, title: "Dash Pods All in 1", category: "detersivi", price: 6.50, desc: "Confezione da 18 lavaggi", image: "https://m.media-amazon.com/images/I/71Xm06+yC2L._AC_SL1500_.jpg" },
+            { id: 2, title: "Dixan Liquido", category: "detersivi", price: 5.90, desc: "Classico 22 lavaggi", image: "https://m.media-amazon.com/images/I/71Yy4rG9hBL._AC_SL1500_.jpg" },
+            { id: 3, title: "Ammorbidente Coccolino", category: "detersivi", price: 3.20, desc: "Profumo Primavera", image: "https://m.media-amazon.com/images/I/71h3v7GZ71L._AC_SL1500_.jpg" },
+            { id: 4, title: "Sgrassatore Chanteclair", category: "detersivi", price: 2.50, desc: "Muschio Bianco 600ml", image: "https://m.media-amazon.com/images/I/71Oq24kUjJL._AC_SL1500_.jpg" },
+            { id: 5, title: "Candeggina Delicata Ace", category: "detersivi", price: 2.80, desc: "2 Litri", image: "https://m.media-amazon.com/images/I/61I20bU2GCL._AC_SL1500_.jpg" },
+            { id: 6, title: "Finish Powerball Quantum", category: "detersivi", price: 7.50, desc: "Pastiglie Lavastoviglie 22 pz", image: "https://m.media-amazon.com/images/I/81kM9vC6JmL._AC_SL1500_.jpg" },
+            { id: 7, title: "Kit Swiffer Panni + Scopa", category: "detersivi", price: 12.90, desc: "Acchiappapolvere", image: "https://m.media-amazon.com/images/I/71Wc6rM7k6L._AC_SL1500_.jpg" },
+            { id: 8, title: "Napisan Additivo Igienizzante", category: "detersivi", price: 4.50, desc: "Polvere 1.2kg", image: "https://m.media-amazon.com/images/I/710PzR0uX4L._AC_SL1500_.jpg" },
+            { id: 9, title: "Slip Donna Cotonella", category: "intimo", price: 9.00, desc: "Confezione 3 pezzi cotone", image: "https://m.media-amazon.com/images/I/71qS7Vf1jBL._AC_UY1000_.jpg" },
+            { id: 10, title: "Maglia Uomo Navigare", category: "intimo", price: 8.50, desc: "Mezza manica cotone elasticizzato", image: "https://m.media-amazon.com/images/I/61sN5bT7D2L._AC_UY1000_.jpg" },
+            { id: 11, title: "Calze Pompea", category: "intimo", price: 3.50, desc: "Confezione 3 paia", image: "https://m.media-amazon.com/images/I/71n5lZ2Cj4L._AC_UY1000_.jpg" },
+            { id: 12, title: "Canotta Liabel Spalla Larga", category: "intimo", price: 6.00, desc: "100% Caldo Cotone", image: "https://m.media-amazon.com/images/I/61T2G3V8jZL._AC_UY1000_.jpg" }
+        ];
+
+        let currentCategory = 'all';
+        let cart = [];
+
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+            const filtered = products.filter(p => {
+                const matchesCategory = currentCategory === 'all' || p.category === currentCategory;
+                const matchesSearch = p.title.toLowerCase().includes(searchTerm) || p.desc.toLowerCase().includes(searchTerm);
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #aaa; font-size: 1.2rem;">Nessun prodotto trovato.</p>`;
+                return;
+            }
+
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div>
+                        <img src="${p.image}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/200?text=Bazar+Stefania'">
+                        <div class="product-title">${p.title}</div>
+                        <div class="product-desc">${p.desc}</div>
+                    </div>
+                    <div>
+                        <div class="product-price">€ ${p.price.toFixed(2)}</div>
+                        <button class="add-btn" onclick="addToCart(${p.id})">Aggiungi</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderProducts();
+        }
+
+        function filterProducts() {
+            renderProducts();
+        }
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            const cartItem = cart.find(item => item.id === id);
+
+            if (cartItem) {
+                cartItem.qty++;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartList = document.getElementById('cartList');
+            const cartTotal = document.getElementById('cartTotal');
+
+            if (cart.length === 0) {
+                cartList.innerHTML = `<li style="color: #aaa; text-align: center;">Nessun prodotto aggiunto. Clicca su "Aggiungi" sui prodotti che desideri.</li>`;
+                cartTotal.innerHTML = `Totale stimato: €0.00`;
+                return;
+            }
+
+            cartList.innerHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                let itemTotal = item.price * item.qty;
+                total += itemTotal;
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span>${item.title} (x${item.qty})</span>
+                    <span>€ ${itemTotal.toFixed(2)}</span>
+                `;
+                cartList.appendChild(li);
+            });
+
+            cartTotal.innerHTML = `Totale stimato: € ${total.toFixed(2)}`;
+        }
+
+        function sendWhatsApp() {
+            if (cart.length === 0) {
+                alert("La lista è vuota! Aggiungi prima qualche prodotto.");
+                return;
+            }
+
+            let message = "Salve Stefania, vorrei ordinare i seguenti prodotti dal Bazar:\n\n";
+            let total = 0;
+
+            cart.forEach(item => {
+                message += `- ${item.title} (x${item.qty}): €${(item.price * item.qty).toFixed(2)}\n`;
+                total += item.price * item.qty;
+            });
+
+            message += `\nTotale stimato: €${total.toFixed(2)}`;
+
+            // Sostituisci il numero 393330000000 con il numero di telefono WhatsApp reale del negozio
+            let phoneNumber = "393330000000"; 
+            let url = `https://wa.me/${phoneNumber}?text=` + encodeURIComponent(message);
+            window.open(url, '_blank');
+        }
+
+        function addNewProduct() {
+            let title = document.getElementById('newTitle').value;
+            let category = document.getElementById('newCategory').value.toLowerCase();
+            let price = parseFloat(document.getElementById('newPrice').value);
+            let image = document.getElementById('newImage').value;
+
+            if (!title || !category || isNaN(price)) {
+                alert("Per favore inserisci nome, categoria (detersivi o intimo) e prezzo valido.");
+                return;
+            }
+
+            let newP = {
+                id: products.length + 1,
+                title: title,
+                category: category.includes('intimo') ? 'intimo' : 'detersivi',
+                price: price,
+                desc: "Nuovo arrivo",
+                image: image || "https://via.placeholder.com/200?text=Nuovo+Prodotto"
+            };
+
+            products.push(newP);
+            renderProducts();
+            alert("Prodotto aggiunto con successo al catalogo!");
+
+            document.getElementById('newTitle').value = '';
+            document.getElementById('newCategory').value = '';
+            document.getElementById('newPrice').value = '';
+            document.getElementById('newImage').value = '';
+        }
+
+        // Avvio iniziale
+        renderProducts();
+    </script>
+</body>
+</html>
